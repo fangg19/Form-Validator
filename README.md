@@ -1,2 +1,2 @@
 # Form-Validator
-simple form validator
+simple form validator using HTML CSS and JS
