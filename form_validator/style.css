@@ -57,7 +57,7 @@ h2 {
 
 .form-control input:focus {
   outline: 0;
-  border-color: #777;
+  border-color: #2c698d;
 }
 
 .form-control.success input {
