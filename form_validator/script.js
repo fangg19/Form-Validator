@@ -4,7 +4,13 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
 
-// Show error class
+
+// Get fieldname
+getFieldName = (input) => {
+  return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+};
+
+// Show error
 showError = (input, message) => {
   const formControl = input.parentElement;
   formControl.className = 'form-control error';
@@ -12,24 +18,18 @@ showError = (input, message) => {
   small.innerText = message;
 };
 
-// Show success class
+// Show success
 showSuccess = (input) => {
   const formControl = input.parentElement;
   formControl.className = 'form-control success';
 };
-
-// Email validation
-function validateEmail(email) {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-}
 
 
 // Check required
 checkRequired = (inputArr) => {
   inputArr.forEach(input => {
     if (input.value.trim() === '') {
-      showError(input, `${getFieldName(input)} is required`);
+      showError(input, `${getFieldName(input)} is required.`);
     } else {
       showSuccess(input);
     }
@@ -37,19 +37,33 @@ checkRequired = (inputArr) => {
 };
 
 // Check input length
-
 checkLength = (input, min, max) => {
   if (input.value.length < min) {
-    showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+    showError(input, `${getFieldName(input)} must be at least ${min} characters.`);
   } else if (input.value.length > max) {
-    showError(input, `${getFieldName(input)} must less than ${max} characters`);
+    showError(input, `${getFieldName(input)} must be less than ${max} characters.`);
   } else 
   showSuccess(input);
 }
 
-// Get fieldname
-getFieldName = (input) => {
-  return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+// Email validation
+function checkEmail(input) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (re.test(input.value.trim())) {
+    showSuccess(input);
+  } else {
+    showError(input, "E-mail is not an valid.");
+  }
+}
+
+// Check passwords match
+
+function checkPasswords(input1, input2) {
+  if (input1.value !== input2.value) {
+    showError (input2, 'Passwords do not match.');
+  } else {
+    showSuccess();
+  }
 };
 
 // Event Listeners
@@ -58,4 +72,6 @@ form.addEventListener('submit', function (e) {
   checkRequired ([username, email, password, password2]);
   checkLength(username, 3, 15);
   checkLength(password, 6, 25);
+  checkEmail(email);
+  checkPasswords(password, password2);
 });
