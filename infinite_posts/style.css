@@ -103,7 +103,7 @@ h1 {
   transition: 0.3s opacity ease-in;
 }
 
-.loader .show {
+.loader.show {
   opacity: 1;
 }
 

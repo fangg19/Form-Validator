@@ -85,7 +85,7 @@ h1 {
   bottom: 50px;
   transition: 0.3s opacity ease-in;
 
-  .show {
+  &.show {
     opacity: 1;
   }
 
