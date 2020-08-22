@@ -2,8 +2,7 @@ const postsContainer = document.getElementById('posts-container');
 const loading = document.querySelector('.loader');
 const filter = document.getElementById('filter');
 
-//fetch posts from API
-
+//Fetch posts from API
 let limit = 5;
 let page = 1;
 
@@ -17,12 +16,14 @@ async function getPosts() {
   return data;
 }
 
-//show posts in DOM
+//Show initial posts
+showPosts();
 
+//Show posts in DOM
 async function showPosts() {
-  const post = await getPosts();
+  const posts = await getPosts();
 
-  post.forEach((post) => {
+  posts.forEach((post) => {
     const postEl = document.createElement('div');
     postEl.classList.add('post');
     postEl.innerHTML = `
@@ -35,11 +36,24 @@ async function showPosts() {
   });
 }
 
-//show initial post
-showPosts();
+//Filter posts by input
+function filterPosts(e) {
+  const term = e.target.value.toUpperCase();
+  const posts = document.querySelectorAll('.post');
 
-//show loader and fetch more posts
+  posts.forEach((post) => {
+    const title = post.querySelector('.post-title').innerText.toUpperCase();
+    const body = post.querySelector('.post-body').innerText.toUpperCase();
 
+    if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
+      post.style.display = 'flex';
+    } else {
+      post.style.display = 'none';
+    }
+  });
+}
+
+//Show loader and fetch more posts
 function showLoader() {
   loading.classList.add('show');
 
@@ -47,9 +61,10 @@ function showLoader() {
     loading.classList.remove('show');
 
     setTimeout(() => {
-      page++;
+      limit = 5;
+      page += 1;
       showPosts();
-    }, 300);
+    }, 500);
   }, 1000);
 }
 
@@ -60,3 +75,5 @@ window.addEventListener('scroll', () => {
     showLoader();
   }
 });
+
+filter.addEventListener('input', filterPosts);
