@@ -81,7 +81,7 @@ body {
 
 .container main h3 {
   background-color: #ffffff;
-  border-bottom: 1px solid #1c1c1c;
+  border: 1px solid #1c1c1c;
   padding: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
